@@ -9,6 +9,7 @@ Blockchain, the foundation of Bitcoin, has received extensive attentions recentl
 ParaLedger /Paraˈlɛʤə/ is derived from two words, parasitee and ledger. Parasite is an organism that lives in or on an organism of another species (its host) and benefits by the host. Similarly ParaLedger relies on the functionality of git for reliability of the relay chain. Ledger, as the name suggests is a book or other collection of financial accounts. Hence ParaLedger is a peer to peer trustless blockchain which utilises git to keep an immutable record of transactions consisting of digital data.
 
 ## Basics
+![relay_chain](/images/relay_chain.png "relay chain on ParaLedger")
 
 
 ## Voting
@@ -16,7 +17,7 @@ ParaLedger /Paraˈlɛʤə/ is derived from two words, parasitee and ledger. Para
 Situations might arise where the ParaLedger's relay chain has branched out. In this situation, how is it decided on which chain is the valid chain? This is where voting comes in. We are going to assume that one or the other is the valid commit and we are going to build on top of that. Ultimately, one chain is going to be longer than the other. The longer chain is the more trusted list of transactions. So that means the winner is the longest chain. 
 Now, what are we going to do with the commits on the  other chain, they have to either be cherry-picked into the later transactions or the transactions get cancelled, hence the transactions have to be made again.
 
-## Digital Signatures
+## Transactions and Digital Signatures
 Signatures are important to not have suspicious transactions on the ledger. Since we are leveraging git to function as a blockchain, suspicious activities include faking an author while committing your transaction. The tool is to sign transactions. 
 
 Generating a digital signature, A digital signature relies on hashing and public key cryptography. When you sign data, you hash the data and encrypt the results with your private key. The encrypted hash value is called a digital signature. If you change the original data, a different digital signature will be generated.
@@ -25,7 +26,8 @@ Verifying a digital signature, Verifying a digital signature is the opposite of 
 To make it work, we generate a public key - private key pair.
 The public key looks like below: 
 ``` bash
----- BEGIN SSH2 PUBLIC KEY ---- AAAAB3NzaC1yc2EAAAABJQAAAQB/nAmOjTmezNUDKYvEeIRf2YnwM9/uUG1d0BYs c8/tRtx+RGi7N2lUbp728MXGwdnL9od4cItzky/zVdLZE2cycOa18xBK9cOWmcKS 0A8FYBxEQWJ/q9YVUgZbFKfYGaGQxsER+A0w/fX8ALuk78ktP31K69LcQgxIsl7r NzxsoOQKJ/CIxOGMMxczYTiEoLvQhapFQMs3FL96didKr/QbrfB1WT6s3838SEaX fgZvLef1YB2xmfhbT9OXFE3FXvh2UPBfN+ffE7iiayQf/2XR+8j4N4bW30DiPtOQ LGUrH1y5X/rpNZNlWW2+jGIxqZtgWg7lTy3mXy5x836Sj/6L 
+---- BEGIN SSH2 PUBLIC KEY ---- 
+AAAAB3NzaC1yc2EAAAABJQAAAQB/nAmOjTmezNUDKYvEeIRf2YnwM9/uUG1d0BYs c8/tRtx+RGi7N2lUbp728MXGwdnL9od4cItzky/zVdLZE2cycOa18xBK9cOWmcKS 0A8FYBxEQWJ/q9YVUgZbFKfYGaGQxsER+A0w/fX8ALuk78ktP31K69LcQgxIsl7r NzxsoOQKJ/CIxOGMMxczYTiEoLvQhapFQMs3FL96didKr/QbrfB1WT6s3838SEaX fgZvLef1YB2xmfhbT9OXFE3FXvh2UPBfN+ffE7iiayQf/2XR+8j4N4bW30DiPtOQ LGUrH1y5X/rpNZNlWW2+jGIxqZtgWg7lTy3mXy5x836Sj/6L 
 ---- END SSH2 PUBLIC KEY ----
 ```
 This is an awful lot of information. So we want to identify this public key with something shorter. A fingerprint is created by taking the SHA256 digest of that public key. Since the digest is itself long, the first 7 characters of the digest will be your final fingerprint.
@@ -49,6 +51,7 @@ openssl dgst -sha256 -sign ~/.ssh/paraledger_rsa -out 20221601-transaction.sign 
 Commit all three files (transaction json, public key fingerprint and the signed transaction),  as a part of the transaction. 
 
 ## Wallets
+![wallet](/images/wallet.png "wallets on ParaLedger")
 Fingerprint as folders. Every user has a fingerprint and this fingerprint folder (wallet folder) is what represents that user’s wallet. Everytime a user makes a translation, it has to be committed in the wallet folder for it to be validated by the validators and to be added to the ledger while a new block is being mined. These folders can be split using git subtree. Git subtree split will take one of the folders from your working set and then go through all the commits that changes a file in that folder. It then creates another commit which has only the changes to those files. So we have a parallel history that is going on which are only the changes that changed the subtree. At the end of this, we end up with a SHA which represents the final commit. If we were to checkout to that SHA, your working set would not be the entire directory. It would just be that one subfolder.
 ``` bash
 git subtree split -P e50cf32/ --rejoin
