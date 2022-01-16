@@ -1,7 +1,6 @@
 # Whitepaper
 
-# Altchain: 
-A peer to peer plugable ledger
+# Altchain: A peer to peer plugable ledger
 ![altchain](/images/altchain_short.png "Altchain")
 
 ## Abstract
