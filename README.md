@@ -6,7 +6,14 @@ ParaLedger: A peer to peer plugable ledger
 Blockchain, the foundation of Bitcoin, has received extensive attentions recently. Blockchain serves as an immutable ledger which allows transactions take place in a decentralized manner. Blockchain-based applications are springing up, covering numerous fields including financial services, reputation system and Internet of Things (IoT), and so on. However, there are still many challenges of blockchain technology such as scalability and security problems waiting to be overcome. This paper provides a pluggable blockchain architecture which can be deployed using git.
 
 ## Introduction
+ParaLedger /Paraˈlɛʤə/ is derived from two words, parasitee and ledger. Parasite is an organism that lives in or on an organism of another species (its host) and benefits by the host. Similarly ParaLedger relies on the functionality of git for reliability of the relay chain. Ledger, as the name suggests is a book or other collection of financial accounts. Hence ParaLedger is a peer to peer trustless blockchain which utilises git to keep an immutable record of transactions of any kind of digital data.
 
+## Basics
+
+
+## Voting
+Situations might arise where the ParaLedger's relay chain has branched out. In this situation, how is it decided on which chain is the valid chain? This is where voting comes in. We are going to assume that one or the other is the valid commit and we are going to build on top of that. Ultimately, one chain is going to be longer than the other. The longer chain is the more trusted list of transactions. So that means the winner is the longest chain. 
+Now, what are we going to do with the commits on the  other chain, they have to either be cherry-picked into the later transactions or the transactions get cancelled, hence the transactions have to be made again.
 
 ## Digital Signatures
 Signatures are important to not have suspicious transactions on the ledger. Since we are leveraging git to function as a blockchain, suspicious activities include faking an author while committing your transaction. The tool is to sign transactions. 
@@ -66,3 +73,16 @@ User file deletion and modification validation:
 Validator incentive is paid in the form of gas fee. A small percentage of everyone’s transaction that the validator has validates will go to the node validator. This small percentage is deducted from the transaction which is being made on the chain and then a new transaction would be created at the end of the block transferring a percentage of the money to the node validator. This validator incentive would not be part of the main transaction, instead it is a new file that has information of all the node validators’ rewards. This new transaction is not signed by anyone. It is just signed by the person who has actually validated the main transaction file. 
 
 ## Proof of Work:
+Proof-of-work is the mechanism that allows the decentralized ParaLedger to come to consensus, or agree on things like account balances and the order of transactions. This prevents users from "double spending" their coins and ensures that the ParaLedger's relay chain is tremendously difficult to attack or manipulate.
+
+The proof-of-work protocol, ParaHash, requires miners to go through an intense race of trial and error to find the hash for a block. Only commits with a valid hash can be added to the chain.
+
+When racing to create a hash, a miner will repeatedly put a dataset, that you can only get from downloading and running the full chain (as a miner does), through a function. The dataset gets used to generate a mixHash below a target, as dictated by the block difficulty. The best way to do this is through trial and error.
+
+The difficulty determines the target for the hash. The lower the target, the smaller the set of valid hashes. Once generated, this is incredibly easy for other miners and clients to verify. Even if one transaction were to change, the hash would be completely different, signalling fraud.
+
+Hashing makes fraud easy to spot. But proof-of-work as a process is also a big deterrent to attacking the relay chain.
+
+Miners are incentivised to do this work on the ParaLedger's relay chain. There is little incentive for a subset of miners to start their own chain – it undermines the system. Blockchains rely on having a single state as a source of truth. And users will always choose the longest or "heaviest" chain.
+
+
