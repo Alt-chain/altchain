@@ -8,8 +8,6 @@ A peer to peer plugable ledger
 Blockchain, the foundation of Bitcoin, has received extensive attentions recently. Blockchain serves as an immutable ledger which allows transactions take place in a decentralized manner. Blockchain-based applications are springing up, covering numerous fields including financial services, reputation system and Internet of Things (IoT), and so on. However, there are still many challenges of blockchain technology such as scalability and security problems waiting to be overcome. This paper provides a pluggable blockchain architecture which can be deployed using git.
 
 ## Introduction
-Altchain /Paraˈlɛʤə/ is derived from two words, parasitee and ledger. Parasite is an organism that lives in or on an organism of another species (its host) and benefits by the host. Similarly Altchain relies on the functionality of git for reliability of the relay chain. Ledger, as the name suggests is a book or other collection of financial accounts. Hence Altchain is a peer to peer trustless blockchain which utilises git to keep an immutable record of transactions consisting of digital data.
-
 The term 'Altchain' is a combination of two words: 'alt' and 'chain' where alt means 'alternative' and chain means 'blockchain'. Together they imply a category of blockchain, which is an alternative to the Bitcoin blockchain. Altchain relies on the functionality of git for interoperability of its relay chain. It uses the concepts of the bitcoin blockchain to maintain the immutability of transaction data on the relay chain. Hence, Altchain is a peer to peer trustless blockchain which utilises git to keep an immutable record of transactions consisting of digital data.
 
 ## Basics
