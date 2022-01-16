@@ -6,12 +6,13 @@ ParaLedger: A peer to peer plugable ledger
 Blockchain, the foundation of Bitcoin, has received extensive attentions recently. Blockchain serves as an immutable ledger which allows transactions take place in a decentralized manner. Blockchain-based applications are springing up, covering numerous fields including financial services, reputation system and Internet of Things (IoT), and so on. However, there are still many challenges of blockchain technology such as scalability and security problems waiting to be overcome. This paper provides a pluggable blockchain architecture which can be deployed using git.
 
 ## Introduction
-ParaLedger /Paraˈlɛʤə/ is derived from two words, parasitee and ledger. Parasite is an organism that lives in or on an organism of another species (its host) and benefits by the host. Similarly ParaLedger relies on the functionality of git for reliability of the relay chain. Ledger, as the name suggests is a book or other collection of financial accounts. Hence ParaLedger is a peer to peer trustless blockchain which utilises git to keep an immutable record of transactions of any kind of digital data.
+ParaLedger /Paraˈlɛʤə/ is derived from two words, parasitee and ledger. Parasite is an organism that lives in or on an organism of another species (its host) and benefits by the host. Similarly ParaLedger relies on the functionality of git for reliability of the relay chain. Ledger, as the name suggests is a book or other collection of financial accounts. Hence ParaLedger is a peer to peer trustless blockchain which utilises git to keep an immutable record of transactions consisting of digital data.
 
 ## Basics
 
 
 ## Voting
+![voting_diagram](/images/voting_diagram.png "voting on ParaLedger")
 Situations might arise where the ParaLedger's relay chain has branched out. In this situation, how is it decided on which chain is the valid chain? This is where voting comes in. We are going to assume that one or the other is the valid commit and we are going to build on top of that. Ultimately, one chain is going to be longer than the other. The longer chain is the more trusted list of transactions. So that means the winner is the longest chain. 
 Now, what are we going to do with the commits on the  other chain, they have to either be cherry-picked into the later transactions or the transactions get cancelled, hence the transactions have to be made again.
 
@@ -59,15 +60,16 @@ Wallet can be seen as the history of changes that only affect you and the privat
 
 ## Validation
 Validation is a script which executes a validation program when new commits from users is pulls from remote into the node validator’s local repository.
-Validating signatures:
+### a. Validating signatures:
 Validators can verify the signatures by taking the sha256 digest of the transaction and verify if the public key matches the signature of the digest of the transaction with the signature file.
 ``` bash
 openssl dgst -sha256 -verify e50cf32.pub -signature 20221601-transaction.sign 20221601-transaction.json
 ```
-Validating balances:
+### b. Validating balances:
 Node validators also validate the balances of every user throughout the blockchain.Making sure that no one is defaulting. If everything passes, then the commit passes.
 
-User file deletion and modification validation:
+### c. User file deletion and modification validation:
+Node validators have to validate any changes in the previously added files ot transactions. This can be verified by simply checking the block hashes. Block's hash will be modified if changes are made and committed freshly.
 
 ## Incentive
 Validator incentive is paid in the form of gas fee. A small percentage of everyone’s transaction that the validator has validates will go to the node validator. This small percentage is deducted from the transaction which is being made on the chain and then a new transaction would be created at the end of the block transferring a percentage of the money to the node validator. This validator incentive would not be part of the main transaction, instead it is a new file that has information of all the node validators’ rewards. This new transaction is not signed by anyone. It is just signed by the person who has actually validated the main transaction file. 
