@@ -50,7 +50,7 @@ git checkout a734832ef897b87a434d9688a98698ed9868de98698f668fd68 -b wallet
 ```
 Wallet can be seen as the history of changes that only affect you and the private key pair that is stored. Wallet holders don't need to have the entire chain transactions unless they are also validators. Only validators need to have the information of the entire chain.
 
-Validation:
+## Validation
 Validation is a script which executes a validation program when new commits from users is pulls from remote into the node validator’s local repository.
 Validating signatures:
 Validators can verify the signatures by taking the sha256 digest of the transaction and verify if the public key matches the signature of the digest of the transaction with the signature file.
